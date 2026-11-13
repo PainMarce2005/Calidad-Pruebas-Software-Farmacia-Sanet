@@ -109,4 +109,8 @@ INSERT INTO categorias (nombre, descripcion) VALUES ('Categoría CI', 'Fixture d
 INSERT INTO productos
   (id, nombre, descripcion, laboratorio, lote, stock, stock_minimo, precio, vencimiento, estado, categoria)
 VALUES
-  ('CI001', 'Producto CI', 'Fixture de integración', 'Laboratorio CI', 'CI-001', 100, 5, 2.50, '2099-12-31', 'normal', 'Categoría CI');
+  ('CI001', 'Producto CI', 'Fixture de integración', 'Laboratorio CI', 'CI-001', 100, 5, 2.50, '2099-12-31', 'normal', 'Categoría CI'),
+  ('CI002', 'Producto próximo a vencer CI', 'Fixture de vencimiento para E2E', 'Laboratorio CI', 'CI-002', 20, 5, 3.50, DATE_ADD(CURRENT_DATE, INTERVAL 7 DAY), 'normal', 'Categoría CI');
+
+INSERT INTO clientes (nombre, dni, direccion, telefono, estado)
+VALUES ('Cliente CI', '99999999', 'Dirección CI', '999999999', 'Activo');
