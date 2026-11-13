@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>UniReport — Calidad y pruebas</title>
+  <style>
+    :root{font:16px system-ui,sans-serif;color:#172033;background:#f3f5f8}
+    body{max-width:1180px;margin:32px auto;padding:0 20px}
+    h1,h2{color:#19365b}
+    .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px;margin:20px 0}
+    .card,section{background:#fff;border:1px solid #dfe4eb;border-radius:10px;padding:18px;box-shadow:0 2px 6px #0000000a}
+    .value{font-size:1.8rem;font-weight:700;color:#176b50}
+    .label,small{color:#5d6878}
+    .status{font-weight:700}
+    table{width:100%;border-collapse:collapse;background:#fff;margin:12px 0 24px}
+    th,td{text-align:left;padding:10px;border-bottom:1px solid #e6e9ef;vertical-align:top}
+    th{color:#33445c;background:#f7f8fa}
+    code{font-size:.82rem;overflow-wrap:anywhere}
+    .note{border-left:4px solid #e2a72e;padding:10px 14px;background:#fff8e7}
+  </style>
+</head>
+<body>
+  <h1>UniReport — Sistema de Gestión de Ventas</h1>
+  <p>Consolidado de Mochawesome, cobertura c8, ESLint y resúmenes k6.</p>
+  <p class="status">Estado: APROBADO · Generado: 12/11/2026, 23:33:31</p>
+  <div class="cards">
+    <article class="card"><div class="value">100.00%</div><div class="label">Pass rate de ejecuciones</div></article>
+    <article class="card"><div class="value">86/86</div><div class="label">Aprobadas / ejecutadas</div></article>
+    <article class="card"><div class="value">0</div><div class="label">Fallidas</div></article>
+    <article class="card"><div class="value">100.00%</div><div class="label">Cobertura de líneas seleccionadas</div></article>
+    <article class="card"><div class="value">37</div><div class="label">Advertencias ESLint</div></article>
+  </div>
+  <section>
+    <h2>Resultados por suite</h2>
+    <p>Se encontraron reportes para todas las suites configuradas.</p>
+    <p>Total reportado: 86 casos sumados entre suites. Las suites negativas se solapan; no representa requisitos únicos.</p>
+    <table><thead><tr><th>Suite</th><th>Estado</th><th>Tests</th><th>Pass</th><th>Fail</th><th>Pending</th><th>Skipped</th><th>Fuente</th></tr></thead>
+      <tbody><tr>
+      <td>Unitarias</td>
+      <td>APROBADO</td>
+      <td>12</td>
+      <td>12</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td><code>1. Unitarias (cliente y servidor)/reports/unitarias/unit-test-report.json</code></td>
+    </tr><tr>
+      <td>Integración API</td>
+      <td>APROBADO</td>
+      <td>16</td>
+      <td>16</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td><code>2. Integración_API (servidor Node.js)/reports/api/mochawesome/api-integration-report.json</code></td>
+    </tr><tr>
+      <td>Negativas API</td>
+      <td>APROBADO</td>
+      <td>19</td>
+      <td>19</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td><code>2. Integración_API (servidor Node.js)/reports/negative/mochawesome/negative-test-report.json</code></td>
+    </tr><tr>
+      <td>Negativas ampliadas</td>
+      <td>APROBADO</td>
+      <td>23</td>
+      <td>23</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td><code>2. Integración_API (servidor Node.js)/reports/negative/mochawesome/negative-all-report.json</code></td>
+    </tr><tr>
+      <td>E2E navegador</td>
+      <td>APROBADO</td>
+      <td>16</td>
+      <td>16</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td><code>3. End-to-End (E2E) en navegador/reports/mochawesome/e2e-report.json</code></td>
+    </tr></tbody>
+    </table>
+  </section>
+  <section>
+    <h2>Métricas complementarias</h2>
+    <table><tbody>
+      <tr><th>Cobertura de líneas</th><td>100.00%</td><td>361/361</td></tr>
+      <tr><th>Cobertura de funciones</th><td>100.00%</td><td></td></tr>
+      <tr><th>Cobertura de ramas</th><td>100.00%</td><td></td></tr>
+      <tr><th>ESLint</th><td>88 archivos; 0 errores; 37 advertencias</td><td>Advertencias no equivalen a defectos confirmados</td></tr>
+      <tr><th>Carga k6</th><td>300 iteraciones; p95 9.87 ms</td><td>N/D req/s; errores HTTP 0.00%; checks 100.00%</td></tr>
+      <tr><th>Estrés k6</th><td>97639 iteraciones; p95 49.12 ms</td><td>929.19 req/s; errores HTTP 0.00%; checks 100.00%</td></tr>
+    </tbody></table>
+  </section>
+  <section>
+    <h2>Tendencia de reportes (máximo 30 registros)</h2>
+    <p>Se agrega una entrada cuando cambia el contenido de los reportes fuente. Volver a generar el dashboard sin nuevos resultados no duplica la misma corrida.</p>
+    <table><thead><tr><th>Generado</th><th>Estado</th><th>Pass</th><th>Pass rate</th><th>Líneas</th><th>Warnings</th><th>Carga p95</th><th>Estrés p95</th></tr></thead>
+      <tbody>
+    <tr>
+      <td>12/11/2026, 23:33:31</td>
+      <td>APROBADO</td>
+      <td>86/86</td>
+      <td>100.00%</td>
+      <td>100.00%</td>
+      <td>37</td>
+      <td>9.87 ms</td>
+      <td>49.12 ms</td>
+    </tr>
+    <tr>
+      <td>12/11/2026, 23:32:13</td>
+      <td>APROBADO</td>
+      <td>86/86</td>
+      <td>100.00%</td>
+      <td>100.00%</td>
+      <td>37</td>
+      <td>9.87 ms</td>
+      <td>49.12 ms</td>
+    </tr></tbody>
+    </table>
+  </section>
+  <p class="note">La estabilidad/flakiness es N/D: las suites Selenium/Mocha no registran reintentos como dato estructurado. El pass rate cuenta resultados reportados y puede incluir casos repetidos entre suites; no mide cobertura de requisitos ni defect leakage.</p>
+</body>
+</html>

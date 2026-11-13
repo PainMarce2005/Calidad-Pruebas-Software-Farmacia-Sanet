@@ -1,0 +1,20 @@
+{
+  "test": "GET /api/productos bajo carga autenticada",
+  "generatedAt": "2026-11-13T03:40:50.340Z",
+  "virtualUsers": 10,
+  "iterations": 300,
+  "requests": 301,
+  "productRequestsPerSecond": 9.920788433681606,
+  "responseTimeMs": {
+    "average": 4.478617295681061,
+    "p95": 9.866943,
+    "maximum": 74.859559
+  },
+  "httpErrorRate": 0,
+  "checkPassRate": 1,
+  "thresholds": {
+    "p95Below500ms": true,
+    "httpErrorRateBelow1Percent": true,
+    "checksAbove99Percent": true
+  }
+}

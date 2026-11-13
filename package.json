@@ -1,0 +1,42 @@
+{
+  "name": "sistema-gestion-ventas",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Sistema de gestión de ventas con suites de calidad automatizadas",
+  "scripts": {
+    "test": "npm run test:unit && npm run test:api && npm run test:negative && npm run test:negative-all && npm run test:e2e && npm run report",
+    "report": "node \"7. Reportes y tendencias de pruebas/unireport.cjs\"",
+    "test:unit": "mocha \"1. Unitarias (cliente y servidor)/unit.test.js\" --timeout 5000 --reporter mochawesome --reporter-options \"reportDir=1. Unitarias (cliente y servidor)/reports/unitarias,reportFilename=unit-test-report,overwrite=true,html=true,json=true\"",
+    "test:api": "mocha \"2. Integración_API (servidor Node.js)/tests/api.test.js\" --timeout 15000 --reporter mochawesome --reporter-options \"reportDir=2. Integración_API (servidor Node.js)/reports/api/mochawesome,reportFilename=api-integration-report,overwrite=true,html=true,json=true\"",
+    "test:negative": "mocha \"2. Integración_API (servidor Node.js)/tests/negative.test.js\" --timeout 30000 --reporter mochawesome --reporter-options \"reportDir=2. Integración_API (servidor Node.js)/reports/negative/mochawesome,reportFilename=negative-test-report,overwrite=true,html=true,json=true\"",
+    "test:negative-all": "mocha \"2. Integración_API (servidor Node.js)/tests/negative-all.test.js\" --timeout 30000 --reporter mochawesome --reporter-options \"reportDir=2. Integración_API (servidor Node.js)/reports/negative/mochawesome,reportFilename=negative-all-report,overwrite=true,html=true,json=true\"",
+    "test:gaps": "mocha \"2. Integración_API (servidor Node.js)/tests/client-email-gap.test.js\" --timeout 15000 --reporter mochawesome --reporter-options \"reportDir=2. Integración_API (servidor Node.js)/reports/gaps/mochawesome,reportFilename=client-email-gap-report,overwrite=true,html=true,json=true\"",
+    "test:client-gap-ui": "mocha \"3. End-to-End (E2E) en navegador/gaps/client-email-gap.spec.js\" --timeout 60000 --reporter mochawesome --reporter-options \"reportDir=3. End-to-End (E2E) en navegador/reports/gaps/mochawesome,reportFilename=client-email-ui-gap-report,overwrite=true,html=true,json=true\"",
+    "test:client-a11y-gaps": "mocha \"3. End-to-End (E2E) en navegador/gaps/client-accessibility-gap.spec.js\" --timeout 60000 --reporter mochawesome --reporter-options \"reportDir=3. End-to-End (E2E) en navegador/reports/gaps/mochawesome,reportFilename=client-accessibility-gap-report,overwrite=true,html=true,json=true\"",
+    "test:e2e": "mocha \"3. End-to-End (E2E) en navegador/specs/**/*.spec.js\" --timeout 60000 --reporter mochawesome --reporter-options \"reportDir=3. End-to-End (E2E) en navegador/reports/mochawesome,reportFilename=e2e-report,overwrite=true,html=true,json=true\"",
+    "test:coverage": "c8 --reporter=text --reporter=html --reporter=json-summary --reports-dir \"4. Cobertura de código (JavaScript)/reports\" --temp-directory \"node_modules/.cache/c8\" --check-coverage --lines 90 --functions 90 --branches 90 mocha \"1. Unitarias (cliente y servidor)/unit.test.js\" --timeout 5000 --reporter mochawesome --reporter-options \"reportDir=1. Unitarias (cliente y servidor)/reports/unitarias,reportFilename=unit-test-report,overwrite=true,html=true,json=true\"",
+    "lint": "eslint --ext .js,.ts,.tsx --max-warnings 37 backend frontend/src",
+    "lint:report": "eslint --ext .js,.ts,.tsx --max-warnings 37 backend frontend/src --format json --output-file \"5. Análisis estático (complejidad, code smells)/reports/static-analysis-report.json\"",
+    "test:performance": "docker compose run --rm k6",
+    "test:stress": "docker compose run --rm k6-stress",
+    "docker:up": "docker compose up -d --build --wait",
+    "docker:seed": "docker compose exec -T backend node seed_passwords.js",
+    "docker:down": "docker compose down",
+    "build": "npm --prefix frontend run build"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "c8": "^10.1.3",
+    "chai": "^6.3.0",
+    "dotenv": "^17.4.2",
+    "eslint": "^10.14.0",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "globals": "^17.14.0",
+    "jsonwebtoken": "^9.0.3",
+    "mocha": "^12.0.3",
+    "mochawesome": "^8.1.1",
+    "selenium-webdriver": "^4.51.0",
+    "supertest": "^7.3.1",
+    "typescript-eslint": "^8.72.2"
+  }
+}

@@ -1,0 +1,212 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 3,
+    "passes": 0,
+    "pending": 0,
+    "failures": 3,
+    "start": "2026-11-13T06:22:05.035Z",
+    "end": "2026-11-13T06:22:07.707Z",
+    "duration": 2672,
+    "testsRegistered": 3,
+    "passPercent": 0,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "6e972236-b7ba-40f1-a2ed-c9c52ba2825a",
+      "title": "",
+      "fullFile": "C:\\Users\\Marcelo\\Downloads\\Calidad y Pruebas de Software\\Interfaz Sistema Gestión_Ventas\\3. End-to-End (E2E) en navegador\\gaps\\client-accessibility-gap.spec.js",
+      "file": "\\3. End-to-End (E2E) en navegador\\gaps\\client-accessibility-gap.spec.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "39464551-144a-482c-a140-2582341bd563",
+          "title": "Brechas propuestas — accesibilidad del formulario de clientes",
+          "fullFile": "C:\\Users\\Marcelo\\Downloads\\Calidad y Pruebas de Software\\Interfaz Sistema Gestión_Ventas\\3. End-to-End (E2E) en navegador\\gaps\\client-accessibility-gap.spec.js",
+          "file": "\\3. End-to-End (E2E) en navegador\\gaps\\client-accessibility-gap.spec.js",
+          "beforeHooks": [
+            {
+              "title": "\"before all\" hook in \"Brechas propuestas — accesibilidad del formulario de clientes\"",
+              "fullTitle": "Brechas propuestas — accesibilidad del formulario de clientes \"before all\" hook in \"Brechas propuestas — accesibilidad del formulario de clientes\"",
+              "timedOut": false,
+              "duration": 624,
+              "state": null,
+              "speed": null,
+              "pass": false,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "driver = await createDriver();\nloginPage = new LoginPage(driver);\nclientPage = new ClientPage(driver);",
+              "err": {},
+              "uuid": "f6c87aa2-78cc-4485-b738-79df435b2652",
+              "parentUUID": "39464551-144a-482c-a140-2582341bd563",
+              "isHook": true,
+              "skipped": false
+            },
+            {
+              "title": "\"before each\" hook in \"Brechas propuestas — accesibilidad del formulario de clientes\"",
+              "fullTitle": "Brechas propuestas — accesibilidad del formulario de clientes \"before each\" hook in \"Brechas propuestas — accesibilidad del formulario de clientes\"",
+              "timedOut": false,
+              "duration": 567,
+              "state": null,
+              "speed": null,
+              "pass": false,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "await loginPage.open();\nawait loginPage.login(adminCredentials.email, adminCredentials.password);\nawait loginPage.waitForRole('Admin');\nawait clientPage.open();\nawait clientPage.openNewClientForm();",
+              "err": {},
+              "uuid": "2d9a00d2-cf1b-4db7-8113-7819aea2094e",
+              "parentUUID": "39464551-144a-482c-a140-2582341bd563",
+              "isHook": true,
+              "skipped": false
+            }
+          ],
+          "afterHooks": [
+            {
+              "title": "\"after all\" hook in \"Brechas propuestas — accesibilidad del formulario de clientes\"",
+              "fullTitle": "Brechas propuestas — accesibilidad del formulario de clientes \"after all\" hook in \"Brechas propuestas — accesibilidad del formulario de clientes\"",
+              "timedOut": false,
+              "duration": 44,
+              "state": null,
+              "speed": null,
+              "pass": false,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "if (driver) await driver.quit();",
+              "err": {},
+              "uuid": "71fa71e0-2fec-4fba-838b-c9e7b09b2b88",
+              "parentUUID": "39464551-144a-482c-a140-2582341bd563",
+              "isHook": true,
+              "skipped": false
+            }
+          ],
+          "tests": [
+            {
+              "title": "[CP-92] asocia las etiquetas visibles con sus controles",
+              "fullTitle": "Brechas propuestas — accesibilidad del formulario de clientes [CP-92] asocia las etiquetas visibles con sus controles",
+              "timedOut": false,
+              "duration": 47,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": null,
+              "code": "const controls = await driver.findElements(\n  By.xpath(`${formLocator}//input | ${formLocator}//select`)\n);\nconst unlabeled = [];\nfor (const control of controls) {\n  const labelCount = await driver.executeScript(\n    'return arguments[0].labels ? arguments[0].labels.length : 0;',\n    control\n  );\n  if (labelCount === 0) unlabeled.push(await control.getAttribute('outerHTML'));\n}\nexpect(unlabeled, 'Cada control debe tener una etiqueta programáticamente asociada')\n  .to.deep.equal([]);",
+              "err": {
+                "message": "AssertionError: Cada control debe tener una etiqueta programáticamente asociada: expected [ …(5) ] to deeply equal []",
+                "estack": "AssertionError: Cada control debe tener una etiqueta programáticamente asociada: expected [ …(5) ] to deeply equal []\n    at Context.<anonymous> (3. End-to-End (E2E) en navegador\\gaps\\client-accessibility-gap.spec.js:51:16)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)",
+                "diff": "- [\n-   \"<input class=\\\"w-full bg-[oklch(0.269_0_0)] border border-[oklch(0.269_0_0)] rounded-lg px-4 py-2 text-white placeholder:text-muted-foreground focus:outline-none focus:border-[oklch(0.488_0.243_264.376)] transition-colors\\\" placeholder=\\\"Ej: Juan García López\\\" value=\\\"\\\">\"\n-   \"<input class=\\\"w-full bg-[oklch(0.269_0_0)] border border-[oklch(0.269_0_0)] rounded-lg px-4 py-2 text-white placeholder:text-muted-foreground focus:outline-none focus:border-[oklch(0.488_0.243_264.376)] transition-colors\\\" placeholder=\\\"12345678\\\" maxlength=\\\"8\\\" value=\\\"\\\">\"\n-   \"<input class=\\\"w-full bg-[oklch(0.269_0_0)] border border-[oklch(0.269_0_0)] rounded-lg px-4 py-2 text-white placeholder:text-muted-foreground focus:outline-none focus:border-[oklch(0.488_0.243_264.376)] transition-colors\\\" placeholder=\\\"+51 999 000 000\\\" value=\\\"\\\">\"\n-   \"<input class=\\\"w-full bg-[oklch(0.269_0_0)] border border-[oklch(0.269_0_0)] rounded-lg px-4 py-2 text-white placeholder:text-muted-foreground focus:outline-none focus:border-[oklch(0.488_0.243_264.376)] transition-colors\\\" placeholder=\\\"Av. Los Pinos 123, Trujillo\\\" value=\\\"\\\">\"\n-   \"<select class=\\\"w-full bg-[oklch(0.269_0_0)] border border-[oklch(0.269_0_0)] rounded-lg px-4 py-2 text-white placeholder:text-muted-foreground focus:outline-none focus:border-[oklch(0.488_0.243_264.376)] transition-colors appearance-none\\\"><option value=\\\"Activo\\\" class=\\\"bg-[oklch(0.269_0_0)]\\\">Activo</option><option value=\\\"Inactivo\\\" class=\\\"bg-[oklch(0.269_0_0)]\\\">Inactivo</option></select>\"\n- ]\n+ []\n"
+              },
+              "uuid": "4b29e4e1-aa34-479b-8d6a-469cc21c313b",
+              "parentUUID": "39464551-144a-482c-a140-2582341bd563",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "[CP-93] vincula el error de nombre con el campo inválido",
+              "fullTitle": "Brechas propuestas — accesibilidad del formulario de clientes [CP-93] vincula el error de nombre con el campo inválido",
+              "timedOut": false,
+              "duration": 54,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": null,
+              "code": "await clientPage.submitClientForm();\nconst nameInput = await driver.findElement(\n  By.css('input[placeholder=\"Ej: Juan García López\"]')\n);\nconst invalid = await nameInput.getAttribute('aria-invalid');\nconst description = await nameInput.getAttribute('aria-describedby');\nexpect(invalid, 'El campo inválido debe exponer aria-invalid=true').to.equal('true');\nexpect(description, 'El error debe estar asociado con el campo').to.be.a('string').and.not.empty;",
+              "err": {
+                "message": "AssertionError: El campo inválido debe exponer aria-invalid=true: expected null to equal 'true'",
+                "estack": "AssertionError: El campo inválido debe exponer aria-invalid=true: expected null to equal 'true'\n    at Context.<anonymous> (3. End-to-End (E2E) en navegador\\gaps\\client-accessibility-gap.spec.js:62:76)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)",
+                "diff": null
+              },
+              "uuid": "af964a31-f893-4abd-bf6b-edd3c7a0edb6",
+              "parentUUID": "39464551-144a-482c-a140-2582341bd563",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "[CP-94] mueve el foco al primer campo al abrir el formulario",
+              "fullTitle": "Brechas propuestas — accesibilidad del formulario de clientes [CP-94] mueve el foco al primer campo al abrir el formulario",
+              "timedOut": false,
+              "duration": 9,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": null,
+              "code": "const nameInput = await driver.findElement(\n  By.css('input[placeholder=\"Ej: Juan García López\"]')\n);\nconst focused = await driver.executeScript(\n  'return document.activeElement === arguments[0];',\n  nameInput\n);\nexpect(focused, 'El primer campo debe recibir el foco al abrir el modal').to.equal(true);",
+              "err": {
+                "message": "AssertionError: El primer campo debe recibir el foco al abrir el modal: expected false to equal true",
+                "estack": "AssertionError: El primer campo debe recibir el foco al abrir el modal: expected false to equal true\n    at Context.<anonymous> (3. End-to-End (E2E) en navegador\\gaps\\client-accessibility-gap.spec.js:75:82)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)",
+                "diff": "- false\n+ true\n"
+              },
+              "uuid": "9214c16d-618a-4223-8a98-db7802cfadc5",
+              "parentUUID": "39464551-144a-482c-a140-2582341bd563",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [],
+          "failures": [
+            "4b29e4e1-aa34-479b-8d6a-469cc21c313b",
+            "af964a31-f893-4abd-bf6b-edd3c7a0edb6",
+            "9214c16d-618a-4223-8a98-db7802cfadc5"
+          ],
+          "pending": [],
+          "skipped": [],
+          "duration": 110,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 60000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 60000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "12.0.3"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "client-accessibility-gap-report",
+        "saveHtml": true,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "8.1.1"
+    },
+    "marge": {
+      "options": {
+        "reportDir": "3. End-to-End (E2E) en navegador/reports/gaps/mochawesome",
+        "reportFilename": "client-accessibility-gap-report",
+        "overwrite": "true",
+        "html": "true",
+        "json": "true"
+      },
+      "version": "6.3.2"
+    }
+  }
+}

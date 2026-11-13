@@ -1,0 +1,64 @@
+[
+  {
+    "generatedAt": "2026-11-13T04:32:13.752Z",
+    "sourceRunKey": "fa82c89664c7612b5408594f3442a8dcb9fa93f1adec8025858edb55208ab30c",
+    "status": "APROBADO",
+    "tests": {
+      "tests": 86,
+      "passes": 86,
+      "failures": 0,
+      "pending": 0,
+      "skipped": 0,
+      "executed": 86,
+      "passRate": 100
+    },
+    "coverage": {
+      "lines": 100,
+      "functions": 100,
+      "branches": 100
+    },
+    "eslint": {
+      "errors": 0,
+      "warnings": 37
+    },
+    "performance": {
+      "p95Ms": 9.866943,
+      "httpErrorRate": 0
+    },
+    "stress": {
+      "p95Ms": 49.121914049999994,
+      "httpErrorRate": 0
+    }
+  },
+  {
+    "generatedAt": "2026-11-13T04:33:31.884Z",
+    "sourceRunKey": "f26f519b3a277c03750fafabe2428078b68812d5601733cde7745a462e0c511d",
+    "status": "APROBADO",
+    "tests": {
+      "tests": 86,
+      "passes": 86,
+      "failures": 0,
+      "pending": 0,
+      "skipped": 0,
+      "executed": 86,
+      "passRate": 100
+    },
+    "coverage": {
+      "lines": 100,
+      "functions": 100,
+      "branches": 100
+    },
+    "eslint": {
+      "errors": 0,
+      "warnings": 37
+    },
+    "performance": {
+      "p95Ms": 9.866943,
+      "httpErrorRate": 0
+    },
+    "stress": {
+      "p95Ms": 49.121914049999994,
+      "httpErrorRate": 0
+    }
+  }
+]

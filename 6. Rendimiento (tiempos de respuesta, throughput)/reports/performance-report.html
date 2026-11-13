@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Reporte de rendimiento k6</title>
+  <style>
+    :root { color-scheme: light; font-family: system-ui, -apple-system, "Segoe UI", sans-serif; color: #172033; background: #f3f6fb; }
+    * { box-sizing: border-box; }
+    body { margin: 0; padding: 32px 16px; }
+    main { max-width: 960px; margin: 0 auto; }
+    header, section { background: #fff; border: 1px solid #e1e7f0; border-radius: 14px; padding: 24px; margin-bottom: 18px; box-shadow: 0 5px 18px rgba(23, 32, 51, .05); }
+    h1 { margin: 0 0 8px; font-size: clamp(1.5rem, 4vw, 2rem); }
+    h2 { margin: 0 0 16px; font-size: 1.15rem; }
+    .muted { color: #596579; margin: 0; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; }
+    .metric { border: 1px solid #e1e7f0; border-radius: 10px; padding: 16px; }
+    .metric span { display: block; color: #596579; font-size: .9rem; }
+    .metric strong { display: block; margin-top: 6px; font-size: 1.45rem; overflow-wrap: anywhere; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { text-align: left; padding: 12px 10px; border-bottom: 1px solid #e1e7f0; }
+    th { color: #596579; font-weight: 600; }
+    .pass { color: #087443; font-weight: 700; }
+    .fail { color: #b42318; font-weight: 700; }
+    @media (max-width: 560px) { body { padding: 16px 10px; } header, section { padding: 18px; } th, td { padding: 10px 6px; font-size: .9rem; } }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <h1>Reporte de rendimiento</h1>
+      <p class="muted">GET /api/productos bajo carga autenticada · Generado: 2026-11-13T03:40:50.340Z</p>
+    </header>
+    <section aria-labelledby="metrics-title">
+      <h2 id="metrics-title">Métricas de ejecución</h2>
+      <div class="grid">
+        <div class="metric"><span>Latencia p95</span><strong>9.87 ms</strong></div>
+        <div class="metric"><span>Peticiones de productos por segundo</span><strong>9.92 req/s</strong></div>
+        <div class="metric"><span>Tasa de errores HTTP</span><strong>0.00%</strong></div>
+        <div class="metric"><span>Usuarios virtuales</span><strong>10</strong></div>
+        <div class="metric"><span>Peticiones al catálogo</span><strong>300</strong></div>
+        <div class="metric"><span>Checks satisfactorios</span><strong>100.00%</strong></div>
+      </div>
+    </section>
+    <section aria-labelledby="thresholds-title">
+      <h2 id="thresholds-title">Umbrales de aceptación</h2>
+      <table>
+        <thead><tr><th>Criterio</th><th>Resultado medido</th><th>Umbral</th><th>Estado</th></tr></thead>
+        <tbody>
+          <tr><td>Latencia p95</td><td>9.87 ms</td><td>&lt; 500 ms</td><td class="pass">Cumplido</td></tr>
+          
+          <tr><td>Errores HTTP</td><td>0.00%</td><td>&lt; 1%</td><td class="pass">Cumplido</td></tr>
+          
+          <tr><td>Checks satisfactorios</td><td>100.00%</td><td>&gt; 99%</td><td class="pass">Cumplido</td></tr>
+        </tbody>
+      </table>
+      <p class="muted">El reporte contiene métricas agregadas y no incluye URL objetivo, credenciales ni tokens.</p>
+    </section>
+  </main>
+</body>
+</html>

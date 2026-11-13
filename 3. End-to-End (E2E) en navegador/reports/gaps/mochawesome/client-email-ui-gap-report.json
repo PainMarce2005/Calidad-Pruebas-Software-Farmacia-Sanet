@@ -1,0 +1,166 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 1,
+    "passes": 0,
+    "pending": 0,
+    "failures": 1,
+    "start": "2026-11-13T06:13:41.125Z",
+    "end": "2026-11-13T06:13:43.077Z",
+    "duration": 1952,
+    "testsRegistered": 1,
+    "passPercent": 0,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "ddf6fc81-afa2-4bbf-b475-f268350e1df6",
+      "title": "",
+      "fullFile": "C:\\Users\\Marcelo\\Downloads\\Calidad y Pruebas de Software\\Interfaz Sistema Gestión_Ventas\\3. End-to-End (E2E) en navegador\\gaps\\client-email-gap.spec.js",
+      "file": "\\3. End-to-End (E2E) en navegador\\gaps\\client-email-gap.spec.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "b6aa3ab5-270e-49f7-8aa7-e353e644c681",
+          "title": "Brecha propuesta — formulario de correo de clientes",
+          "fullFile": "C:\\Users\\Marcelo\\Downloads\\Calidad y Pruebas de Software\\Interfaz Sistema Gestión_Ventas\\3. End-to-End (E2E) en navegador\\gaps\\client-email-gap.spec.js",
+          "file": "\\3. End-to-End (E2E) en navegador\\gaps\\client-email-gap.spec.js",
+          "beforeHooks": [
+            {
+              "title": "\"before all\" hook in \"Brecha propuesta — formulario de correo de clientes\"",
+              "fullTitle": "Brecha propuesta — formulario de correo de clientes \"before all\" hook in \"Brecha propuesta — formulario de correo de clientes\"",
+              "timedOut": false,
+              "duration": 1127,
+              "state": null,
+              "speed": null,
+              "pass": false,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "driver = await createDriver();\nloginPage = new LoginPage(driver);\nclientPage = new ClientPage(driver);",
+              "err": {},
+              "uuid": "1f09976b-6122-494d-aed3-5c22ded5408f",
+              "parentUUID": "b6aa3ab5-270e-49f7-8aa7-e353e644c681",
+              "isHook": true,
+              "skipped": false
+            },
+            {
+              "title": "\"before each\" hook in \"Brecha propuesta — formulario de correo de clientes\"",
+              "fullTitle": "Brecha propuesta — formulario de correo de clientes \"before each\" hook in \"Brecha propuesta — formulario de correo de clientes\"",
+              "timedOut": false,
+              "duration": 717,
+              "state": null,
+              "speed": null,
+              "pass": false,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "await loginPage.open();\nawait loginPage.login(adminCredentials.email, adminCredentials.password);\nawait loginPage.waitForRole('Admin');\nawait clientPage.open();",
+              "err": {},
+              "uuid": "376a7068-db90-40c8-b218-55d3a98f5d6a",
+              "parentUUID": "b6aa3ab5-270e-49f7-8aa7-e353e644c681",
+              "isHook": true,
+              "skipped": false
+            }
+          ],
+          "afterHooks": [
+            {
+              "title": "\"after all\" hook in \"Brecha propuesta — formulario de correo de clientes\"",
+              "fullTitle": "Brecha propuesta — formulario de correo de clientes \"after all\" hook in \"Brecha propuesta — formulario de correo de clientes\"",
+              "timedOut": false,
+              "duration": 41,
+              "state": null,
+              "speed": null,
+              "pass": false,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "if (driver) await driver.quit();",
+              "err": {},
+              "uuid": "56016690-f657-4f48-bec7-adb33265a919",
+              "parentUUID": "b6aa3ab5-270e-49f7-8aa7-e353e644c681",
+              "isHook": true,
+              "skipped": false
+            }
+          ],
+          "tests": [
+            {
+              "title": "[CP-91] muestra el campo de correo al registrar un cliente",
+              "fullTitle": "Brecha propuesta — formulario de correo de clientes [CP-91] muestra el campo de correo al registrar un cliente",
+              "timedOut": false,
+              "duration": 60,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": null,
+              "code": "await clientPage.openNewClientForm();\nconst emailInputs = await driver.findElements(\n  By.xpath(\"//label[normalize-space(.)='Correo electrónico']/following-sibling::input\")\n);\nexpect(emailInputs, 'El formulario debe permitir ingresar el correo del cliente')\n  .to.have.lengthOf(1);\nexpect(await emailInputs[0].isDisplayed()).to.equal(true);",
+              "err": {
+                "message": "AssertionError: El formulario debe permitir ingresar el correo del cliente: expected [] to have a length of 1 but got +0",
+                "estack": "AssertionError: El formulario debe permitir ingresar el correo del cliente: expected [] to have a length of 1 but got +0\n    at Context.<anonymous> (3. End-to-End (E2E) en navegador\\gaps\\client-email-gap.spec.js:41:16)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)",
+                "diff": "- 0\n+ 1\n"
+              },
+              "uuid": "c0d7dd5d-1ef6-4ad5-a0e9-0d4a41498e99",
+              "parentUUID": "b6aa3ab5-270e-49f7-8aa7-e353e644c681",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [],
+          "failures": [
+            "c0d7dd5d-1ef6-4ad5-a0e9-0d4a41498e99"
+          ],
+          "pending": [],
+          "skipped": [],
+          "duration": 60,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 60000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 60000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "12.0.3"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "client-email-ui-gap-report",
+        "saveHtml": true,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "8.1.1"
+    },
+    "marge": {
+      "options": {
+        "reportDir": "3. End-to-End (E2E) en navegador/reports/gaps/mochawesome",
+        "reportFilename": "client-email-ui-gap-report",
+        "overwrite": "true",
+        "html": "true",
+        "json": "true"
+      },
+      "version": "6.3.2"
+    }
+  }
+}

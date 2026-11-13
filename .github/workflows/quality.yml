@@ -1,0 +1,208 @@
+name: Quality checks
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  backend-unit:
+    name: Backend unit tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: package-lock.json
+
+      - name: Install project test dependencies
+        run: npm ci
+
+      - name: Run ESLint
+        run: npm run lint:report
+
+      - name: Run unit tests with coverage
+        run: npm run test:coverage
+
+      - name: Save unit test reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: backend-unit-reports
+          path: |
+            1. Unitarias (cliente y servidor)/reports/unitarias/
+            4. Cobertura de código (JavaScript)/reports/
+            5. Análisis estático (complejidad, code smells)/reports/
+          if-no-files-found: warn
+          retention-days: 90
+
+  integration-and-e2e:
+    name: API integration and browser acceptance
+    needs:
+      - backend-unit
+      - frontend-build
+    runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:8.4
+        env:
+          MYSQL_ROOT_PASSWORD: ci-root-password
+          MYSQL_DATABASE: farmacia_qa_ci
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping --host=127.0.0.1 --user=root --password=ci-root-password --silent"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=10
+    env:
+      DB_HOST: 127.0.0.1
+      DB_PORT: 3306
+      DB_NAME: farmacia_qa_ci
+      DB_USER: root
+      DB_PASSWORD: ci-root-password
+      JWT_SECRET: ci-only-secret-not-for-production
+      TEST_ADMIN_EMAIL: admin@farmacia.com
+      TEST_ADMIN_PASSWORD: Admin123!
+      TEST_SELLER_EMAIL: vendedor@farmacia.com
+      TEST_SELLER_PASSWORD: Vende123!
+      API_URL: http://127.0.0.1:3001
+      BASE_URL: http://127.0.0.1:5173
+      HEADLESS: "true"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            backend/package-lock.json
+            frontend/package-lock.json
+
+      - name: Install test dependencies
+        run: |
+          npm ci
+          npm ci --prefix backend
+          npm ci --prefix frontend
+
+      - name: Download unit, coverage and static-analysis reports
+        uses: actions/download-artifact@v4
+        with:
+          name: backend-unit-reports
+          path: .
+
+      - name: Create isolated CI database and test users
+        run: |
+          node backend/scripts/setup-ci-db.js
+          node backend/seed_passwords.js
+
+      - name: Run API integration and negative tests
+        run: |
+          npm run test:api
+          npm run test:negative
+          npm run test:negative-all
+
+      - name: Set up Chrome
+        uses: browser-actions/setup-chrome@v1
+
+      - name: Start API and frontend
+        run: |
+          nohup node backend/index.js > /tmp/qa-backend.log 2>&1 &
+          nohup npm run dev --prefix frontend -- --host 127.0.0.1 > /tmp/qa-frontend.log 2>&1 &
+
+      - name: Wait for API and frontend
+        run: |
+          for attempt in $(seq 1 30); do
+            if curl --fail --silent http://127.0.0.1:3001/ > /dev/null \
+              && curl --fail --silent http://127.0.0.1:5173/ > /dev/null; then
+              exit 0
+            fi
+            sleep 2
+          done
+          cat /tmp/qa-backend.log
+          cat /tmp/qa-frontend.log
+          exit 1
+
+      - name: Run Selenium acceptance tests
+        run: npm run test:e2e
+
+      - name: Run k6 load and stress tests
+        run: |
+          set +e
+          reports="$GITHUB_WORKSPACE/6. Rendimiento (tiempos de respuesta, throughput)/reports"
+          mkdir -p "$reports"
+          rm -f "$reports/performance-summary.json" \
+            "$reports/performance-report.html" \
+            "$reports/stress-summary.json"
+
+          run_k6() {
+            script="$1"
+            docker run --rm --network host \
+              -e API_URL="$API_URL" \
+              -e TEST_ADMIN_EMAIL="$TEST_ADMIN_EMAIL" \
+              -e TEST_ADMIN_PASSWORD="$TEST_ADMIN_PASSWORD" \
+              -v "$GITHUB_WORKSPACE/6. Rendimiento (tiempos de respuesta, throughput)/$script:/scripts/$script:ro" \
+              -v "$reports:/workspace/6. Rendimiento (tiempos de respuesta, throughput)/reports" \
+              -w /workspace \
+              grafana/k6:2.4.0 run "/scripts/$script"
+          }
+
+          run_k6 performance.js
+          performance_status=$?
+          run_k6 stress.js
+          stress_status=$?
+
+          if [ "$performance_status" -ne 0 ] || [ "$stress_status" -ne 0 ]; then
+            exit 1
+          fi
+
+      - name: Generate consolidated quality report
+        if: always()
+        run: npm run report
+
+      - name: Save API, browser, performance and consolidated reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: api-e2e-performance-reports
+          path: |
+            2. Integración_API (servidor Node.js)/reports/
+            3. End-to-End (E2E) en navegador/reports/
+            6. Rendimiento (tiempos de respuesta, throughput)/reports/
+            7. Reportes y tendencias de pruebas/reports/
+            /tmp/qa-backend.log
+            /tmp/qa-frontend.log
+          if-no-files-found: warn
+          retention-days: 90
+
+  frontend-build:
+    name: Frontend production build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install frontend dependencies
+        run: npm ci --prefix frontend
+
+      - name: Build frontend
+        run: npm run build
