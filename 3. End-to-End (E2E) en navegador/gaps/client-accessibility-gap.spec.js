@@ -8,7 +8,7 @@ const { getCredentials } = require('../pages/credentials');
 const adminCredentials = getCredentials('admin');
 const formLocator = "//h2[normalize-space(.)='Nuevo Cliente']/ancestor::div[contains(@class,'rounded-xl')][1]";
 
-describe('Brechas propuestas — accesibilidad del formulario de clientes', function () {
+describe('Accesibilidad del formulario de clientes', function () {
   this.timeout(60000);
 
   let driver;
@@ -33,7 +33,7 @@ describe('Brechas propuestas — accesibilidad del formulario de clientes', func
     if (driver) await driver.quit();
   });
 
-  it('[CP-92] asocia las etiquetas visibles con sus controles', async function () {
+  it('CP17: asocia las etiquetas visibles con sus controles', async function () {
     const controls = await driver.findElements(
       By.xpath(`${formLocator}//input | ${formLocator}//select`)
     );
@@ -51,7 +51,7 @@ describe('Brechas propuestas — accesibilidad del formulario de clientes', func
       .to.deep.equal([]);
   });
 
-  it('[CP-93] vincula el error de nombre con el campo inválido', async function () {
+  it('CP18: vincula el error de nombre con el campo inválido', async function () {
     await clientPage.submitClientForm();
     const nameInput = await driver.findElement(
       By.css('input[placeholder="Ej: Juan García López"]')
@@ -63,7 +63,7 @@ describe('Brechas propuestas — accesibilidad del formulario de clientes', func
     expect(description, 'El error debe estar asociado con el campo').to.be.a('string').and.not.empty;
   });
 
-  it('[CP-94] mueve el foco al primer campo al abrir el formulario', async function () {
+  it('CP19: mueve el foco al primer campo al abrir el formulario', async function () {
     const nameInput = await driver.findElement(
       By.css('input[placeholder="Ej: Juan García López"]')
     );

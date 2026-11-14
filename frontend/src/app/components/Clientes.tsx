@@ -16,12 +16,42 @@ interface Cliente {
   fecha_registro?: string;
 }
 
+interface ClienteFormData {
+  nombre: string;
+  dni: string;
+  direccion: string;
+  telefono: string;
+  estado: Cliente['estado'];
+  id?: number;
+}
+
+interface ClienteFormModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  onSave: (data: ClienteFormData) => Promise<void>;
+  cliente: Cliente | null;
+  mode: 'create' | 'edit';
+}
+
+interface ClienteDetailsModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  cliente: Cliente | null;
+}
+
+interface DeleteModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  onConfirm: () => void;
+  nombre: string;
+}
+
 const EMPTY_CLIENT_FORM = { nombre: '', dni: '', direccion: '', telefono: '', estado: 'Activo' };
 const inp = 'w-full bg-[oklch(0.269_0_0)] border border-[oklch(0.269_0_0)] rounded-lg px-4 py-2 text-white placeholder:text-muted-foreground focus:outline-none focus:border-[oklch(0.488_0.243_264.376)] transition-colors';
 const lbl = 'block text-sm text-muted-foreground mb-2';
 
 // Modal Formulario 
-function ClienteFormModal({ isOpen, onClose, onSave, cliente, mode }: any) {
+function ClienteFormModal({ isOpen, onClose, onSave, cliente, mode }: ClienteFormModalProps) {
   const [form, setForm] = useState(EMPTY_CLIENT_FORM);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [saving, setSaving] = useState(false);
@@ -66,16 +96,26 @@ function ClienteFormModal({ isOpen, onClose, onSave, cliente, mode }: any) {
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-[oklch(0.205_0_0)] border border-[oklch(0.269_0_0)] rounded-xl w-full max-w-lg max-h-[90vh] flex flex-col">
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="client-form-title"
+        className="bg-[oklch(0.205_0_0)] border border-[oklch(0.269_0_0)] rounded-xl w-full max-w-lg max-h-[90vh] flex flex-col"
+      >
         {/* Header */}
         <div className="border-b border-[oklch(0.269_0_0)] px-6 py-4 flex items-center justify-between flex-shrink-0">
           <div className="flex items-center gap-3">
             <div className="p-2 bg-[oklch(0.696_0.17_162.48)]/10 rounded-lg">
               <UserCircle2 className="w-6 h-6 text-[oklch(0.696_0.17_162.48)]" />
             </div>
-            <h2 className="text-xl text-white">{mode === 'create' ? 'Nuevo Cliente' : 'Editar Cliente'}</h2>
+            <h2 id="client-form-title" className="text-xl text-white">{mode === 'create' ? 'Nuevo Cliente' : 'Editar Cliente'}</h2>
           </div>
-          <button onClick={onClose} className="text-muted-foreground hover:text-white transition-colors">
+          <button
+            type="button"
+            aria-label="Cerrar formulario de cliente"
+            onClick={onClose}
+            className="text-muted-foreground hover:text-white transition-colors"
+          >
             <X className="w-5 h-5" />
           </button>
         </div>
@@ -83,32 +123,58 @@ function ClienteFormModal({ isOpen, onClose, onSave, cliente, mode }: any) {
         {/* Body */}
         <div className="p-6 overflow-y-auto space-y-4">
           <div>
-            <label className={lbl}>Nombre completo *</label>
-            <input className={inp} value={form.nombre} onChange={e => s('nombre', e.target.value)} placeholder="Ej: Juan García López" />
-            {errors.nombre && <p className="text-destructive text-xs mt-1">{errors.nombre}</p>}
+            <label className={lbl} htmlFor="client-name">Nombre completo *</label>
+            <input
+              id="client-name"
+              className={inp}
+              value={form.nombre}
+              onChange={e => s('nombre', e.target.value)}
+              placeholder="Ej: Juan García López"
+              aria-invalid={Boolean(errors.nombre)}
+              aria-describedby={errors.nombre ? 'client-name-error' : undefined}
+              autoFocus
+            />
+            {errors.nombre && <p id="client-name-error" role="alert" className="text-destructive text-xs mt-1">{errors.nombre}</p>}
           </div>
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className={lbl}>DNI</label>
-              <input className={inp} value={form.dni} onChange={e => s('dni', e.target.value)} placeholder="12345678" maxLength={8} />
-              {errors.dni && <p className="text-destructive text-xs mt-1">{errors.dni}</p>}
+              <label className={lbl} htmlFor="client-dni">DNI</label>
+              <input
+                id="client-dni"
+                className={inp}
+                value={form.dni}
+                onChange={e => s('dni', e.target.value)}
+                placeholder="12345678"
+                maxLength={8}
+                aria-invalid={Boolean(errors.dni)}
+                aria-describedby={errors.dni ? 'client-dni-error' : undefined}
+              />
+              {errors.dni && <p id="client-dni-error" role="alert" className="text-destructive text-xs mt-1">{errors.dni}</p>}
             </div>
             <div>
-              <label className={lbl}>Teléfono</label>
-              <input className={inp} value={form.telefono} onChange={e => s('telefono', e.target.value)} placeholder="+51 999 000 000" />
-              {errors.telefono && <p className="text-destructive text-xs mt-1">{errors.telefono}</p>}
+              <label className={lbl} htmlFor="client-phone">Teléfono</label>
+              <input
+                id="client-phone"
+                className={inp}
+                value={form.telefono}
+                onChange={e => s('telefono', e.target.value)}
+                placeholder="+51 999 000 000"
+                aria-invalid={Boolean(errors.telefono)}
+                aria-describedby={errors.telefono ? 'client-phone-error' : undefined}
+              />
+              {errors.telefono && <p id="client-phone-error" role="alert" className="text-destructive text-xs mt-1">{errors.telefono}</p>}
             </div>
           </div>
 
           <div>
-            <label className={lbl}>Dirección</label>
-            <input className={inp} value={form.direccion} onChange={e => s('direccion', e.target.value)} placeholder="Av. Los Pinos 123, Trujillo" />
+            <label className={lbl} htmlFor="client-address">Dirección</label>
+            <input id="client-address" className={inp} value={form.direccion} onChange={e => s('direccion', e.target.value)} placeholder="Av. Los Pinos 123, Trujillo" />
           </div>
 
           <div>
-            <label className={lbl}>Estado</label>
-            <select className={inp + ' appearance-none'} value={form.estado} onChange={e => s('estado', e.target.value)}>
+            <label className={lbl} htmlFor="client-status">Estado</label>
+            <select id="client-status" className={inp + ' appearance-none'} value={form.estado} onChange={e => s('estado', e.target.value)}>
               <option value="Activo" className="bg-[oklch(0.269_0_0)]">Activo</option>
               <option value="Inactivo" className="bg-[oklch(0.269_0_0)]">Inactivo</option>
             </select>
@@ -135,7 +201,7 @@ function ClienteFormModal({ isOpen, onClose, onSave, cliente, mode }: any) {
 }
 
 // Modal Detalles 
-function ClienteDetailsModal({ isOpen, onClose, cliente }: any) {
+function ClienteDetailsModal({ isOpen, onClose, cliente }: ClienteDetailsModalProps) {
   if (!isOpen || !cliente) return null;
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
@@ -203,7 +269,7 @@ function ClienteDetailsModal({ isOpen, onClose, cliente }: any) {
 }
 
 // Modal Confirmación Eliminar 
-function DeleteModal({ isOpen, onClose, onConfirm, nombre }: any) {
+function DeleteModal({ isOpen, onClose, onConfirm, nombre }: DeleteModalProps) {
   if (!isOpen) return null;
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
@@ -271,7 +337,7 @@ export default function Clientes() {
 
   useEffect(() => { fetchClientes(); }, [fetchClientes]);
 
-  const handleSave = async (data: any) => {
+  const handleSave = async (data: ClienteFormData) => {
     try {
       if (data.id) {
         const res = await apiClient(`/api/clientes/${data.id}`, {
@@ -297,8 +363,8 @@ export default function Clientes() {
       setIsFormOpen(false);
       setSelectedCliente(null);
       await fetchClientes();
-    } catch (e: any) {
-      showErr(e.message || 'Error al guardar el cliente');
+    } catch (e: unknown) {
+      showErr(e instanceof Error ? e.message : 'Error al guardar el cliente');
     }
   };
 

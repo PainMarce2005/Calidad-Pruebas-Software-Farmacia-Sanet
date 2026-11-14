@@ -30,7 +30,7 @@ jobs:
         run: npm run lint:report
 
       - name: Run unit tests with coverage
-        run: npm run test:coverage
+        run: npm run test:coverage:unit
 
       - name: Save unit test reports
         if: always()
@@ -114,6 +114,9 @@ jobs:
           npm run test:negative
           npm run test:negative-all
 
+      - name: Measure backend application coverage
+        run: npm run test:coverage:backend
+
       - name: Set up Chrome
         uses: browser-actions/setup-chrome@v1
 
@@ -180,6 +183,7 @@ jobs:
           path: |
             2. Integración_API (servidor Node.js)/reports/
             3. End-to-End (E2E) en navegador/reports/
+            4. Cobertura de código (JavaScript)/reports/backend-app/
             6. Rendimiento (tiempos de respuesta, throughput)/reports/
             7. Reportes y tendencias de pruebas/reports/
             /tmp/qa-backend.log
@@ -206,3 +210,15 @@ jobs:
 
       - name: Build frontend
         run: npm run build
+
+      - name: Run frontend tests with full-source coverage
+        run: npm run test:coverage:frontend
+
+      - name: Save frontend coverage report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: frontend-coverage-report
+          path: 4. Cobertura de código (JavaScript)/reports/frontend/
+          if-no-files-found: warn
+          retention-days: 90
